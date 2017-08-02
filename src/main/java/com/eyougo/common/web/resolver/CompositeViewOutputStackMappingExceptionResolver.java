@@ -1,7 +1,7 @@
 package com.eyougo.common.web.resolver;
 
-import com.eyougo.resume.common.result.BooleanResult;
-import com.eyougo.resume.common.result.DataResult;
+import com.eyougo.common.result.BooleanResult;
+import com.eyougo.common.result.DataResult;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServletServerHttpRequest;
