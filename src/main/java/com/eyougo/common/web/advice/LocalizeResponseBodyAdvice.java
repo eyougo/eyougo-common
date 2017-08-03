@@ -18,7 +18,7 @@ import java.util.Locale;
  * Created by mei on 03/08/2017.
  */
 @ControllerAdvice
-public class localizeResponseBodyAdvice implements ResponseBodyAdvice {
+public class LocalizeResponseBodyAdvice implements ResponseBodyAdvice {
 
     private MessageSource messageSource;
 
