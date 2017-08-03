@@ -2,6 +2,8 @@ package com.eyougo.common.web.resolver;
 
 import com.eyougo.common.result.BooleanResult;
 import com.eyougo.common.result.DataResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
+import org.springframework.web.servlet.support.RequestContext;
+import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +21,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * User: mei
@@ -33,6 +38,13 @@ public class CompositeViewOutputStackMappingExceptionResolver extends SimpleMapp
 
     public void setExceptionStackAttribute(String exceptionStackAttribute) {
         this.exceptionStackAttribute = exceptionStackAttribute;
+    }
+
+    private MessageSource messageSource;
+
+    @Autowired
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 
     @Override
@@ -81,7 +93,9 @@ public class CompositeViewOutputStackMappingExceptionResolver extends SimpleMapp
     protected ModelAndView getErrorJsonResultView(Exception ex, HttpServletRequest request, HttpServletResponse response) {
         MappingJackson2JsonView view = new MappingJackson2JsonView();
         view.setExtractValueFromSingleKeyModel(true);
-        DataResult<String> errorResult = DataResult.failed(ex.getMessage(), getErrorStackTrace(ex));
+        Locale locale = RequestContextUtils.getLocale(request);
+        DataResult<String> errorResult = DataResult.failed(getErrorStackTrace(ex), ex.getMessage(), new Object[]{})
+                .localizeMessage(messageSource, locale);
 
         String viewName = determineViewName(ex, request);
         if (viewName != null) {

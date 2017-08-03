@@ -1,11 +1,14 @@
 package com.eyougo.common.result;
 
+import org.springframework.context.MessageSource;
+
 import java.io.Serializable;
+import java.util.Locale;
 
 /**
  * Created by mei on 11/05/2017.
  */
-public class DataResult<T extends Serializable> extends BooleanResult{
+public class DataResult<T extends Serializable> extends BooleanResult {
 
     private static final long serialVersionUID = 6868957402462638398L;
 
@@ -15,20 +18,20 @@ public class DataResult<T extends Serializable> extends BooleanResult{
         return new DataResult(true, data);
     }
 
-    public static DataResult success(String message, Serializable data) {
-        return new DataResult(true, message, data);
+    public static DataResult success(Serializable data, String code, Object... args) {
+        return new DataResult(true, data, code, args);
     }
 
-    public static DataResult failed(String message) {
-        return new DataResult(false, message);
+    public static DataResult failed(String code, Object... args) {
+        return new DataResult(false, code, args);
     }
 
-    public static DataResult failed(String message, Serializable data) {
-        return new DataResult(false, message, data);
+    public static DataResult failed(Serializable data, String code, Object... args) {
+        return new DataResult(false, data, code, args);
     }
 
-    protected DataResult(boolean success, String message) {
-        super(success, message);
+    protected DataResult(boolean success, String code, Object... args) {
+        super(success, code, args);
     }
 
     protected DataResult(boolean success, T data) {
@@ -36,9 +39,15 @@ public class DataResult<T extends Serializable> extends BooleanResult{
         this.data = data;
     }
 
-    protected DataResult(boolean success, String message, T data) {
-        super(success, message);
+    protected DataResult(boolean success, T data, String code, Object... args) {
+        super(success, code, args);
         this.data = data;
+    }
+
+    @Override
+    public DataResult localizeMessage(MessageSource messageSource, Locale locale) {
+        super.localizeMessage(messageSource, locale);
+        return this;
     }
 
     public T getData() {
