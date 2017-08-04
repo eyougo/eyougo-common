@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.eyougo.resume.dao.mapper.BaseModelMapper">
+    <resultMap id="BaseResultMap" type="com.eyougo.common.model.BaseModel">
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <select id="encryptPassword" parameterType="String" resultType="String">
+        select password(#{password});
+    </select>
+</mapper>
