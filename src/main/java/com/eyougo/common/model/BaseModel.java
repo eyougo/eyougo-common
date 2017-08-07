@@ -3,31 +3,32 @@ package com.eyougo.common.model;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 /**
  * Created by mei on 23/03/2017.
  */
 public abstract class BaseModel implements Serializable{
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private Date createdAt;
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private Date updatedAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private ZonedDateTime createdAt;
 
-    public Date getCreatedAt() {
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    private ZonedDateTime updatedAt;
+
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public ZonedDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(ZonedDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
